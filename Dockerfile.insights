@@ -1,0 +1,24 @@
+# syntax=docker/dockerfile:1
+# ECS: realtime-server + mcp-insights-server + mcp-insights-runner (1 task)
+FROM node:22-alpine
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+
+COPY realtime-server.js mcp-insights-server.js mcp-insights-runner.js ./
+COPY docker/insights/start.sh /start.sh
+RUN chmod +x /start.sh
+
+ENV PORT=8787
+ENV MCP_PORT=8899
+ENV REALTIME_HTTP_URL=http://127.0.0.1:8787/realtime
+ENV MCP_URL=http://127.0.0.1:8899/mcp
+
+EXPOSE 8787
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+  CMD wget -qO- http://127.0.0.1:8787/health > /dev/null || exit 1
+
+CMD ["/start.sh"]
