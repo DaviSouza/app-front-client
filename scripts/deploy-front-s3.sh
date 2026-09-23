@@ -32,13 +32,13 @@ if [[ ! -f "$ENV_FILE" ]]; then
   exit 1
 fi
 
-echo "==> Carregando VITE_* de $ENV_FILE"
+echo "==> Carregando VITE_* e COGNITO_* de $ENV_FILE"
 set -a
 # shellcheck disable=SC1090
-source <(grep -E '^VITE_' "$ENV_FILE" | sed 's/\r$//')
+source <(grep -E '^(VITE_|COGNITO_)' "$ENV_FILE" | sed 's/\r$//')
 set +a
 
-for var in VITE_API_GATEWAY_URL VITE_COGNITO_AUTHORITY VITE_COGNITO_CLIENT_ID; do
+for var in VITE_API_GATEWAY_URL COGNITO_AUTHORITY COGNITO_CLIENT_ID; do
   if [[ -z "${!var:-}" ]]; then
     echo "Erro: $var não definido no .env" >&2
     exit 1
@@ -46,8 +46,8 @@ for var in VITE_API_GATEWAY_URL VITE_COGNITO_AUTHORITY VITE_COGNITO_CLIENT_ID; d
 done
 
 echo "==> VITE_API_GATEWAY_URL=$VITE_API_GATEWAY_URL"
-echo "==> VITE_COGNITO_AUTHORITY=$VITE_COGNITO_AUTHORITY"
-echo "==> VITE_COGNITO_CLIENT_ID=$VITE_COGNITO_CLIENT_ID"
+echo "==> COGNITO_AUTHORITY=$COGNITO_AUTHORITY"
+echo "==> COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID"
 
 # SSE: CloudFront (HTTPS). POST realtime: API Gateway.
 if [[ -z "${VITE_REALTIME_SSE_URL:-}" ]]; then
@@ -67,8 +67,8 @@ echo "==> Docker build: $IMAGE"
 cd "$FRONT_DIR"
 BUILD_ARGS=(
   --build-arg "VITE_API_GATEWAY_URL=$VITE_API_GATEWAY_URL"
-  --build-arg "VITE_COGNITO_AUTHORITY=$VITE_COGNITO_AUTHORITY"
-  --build-arg "VITE_COGNITO_CLIENT_ID=$VITE_COGNITO_CLIENT_ID"
+  --build-arg "COGNITO_AUTHORITY=$COGNITO_AUTHORITY"
+  --build-arg "COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID"
 )
 if [[ -n "${VITE_REALTIME_SSE_URL:-}" ]]; then
   BUILD_ARGS+=(--build-arg "VITE_REALTIME_SSE_URL=$VITE_REALTIME_SSE_URL")

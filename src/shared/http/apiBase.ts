@@ -16,9 +16,9 @@ export function apiUrl(path: string): string {
 }
 
 export function getCognitoAuthority(): string {
-  return import.meta.env.VITE_COGNITO_AUTHORITY?.trim().replace(/\/$/, '') ?? ''
+  return import.meta.env.COGNITO_AUTHORITY?.trim().replace(/\/$/, '') ?? ''
 }
 
 export function getCognitoClientId(): string {
-  return import.meta.env.VITE_COGNITO_CLIENT_ID?.trim() ?? ''
+  return import.meta.env.COGNITO_CLIENT_ID?.trim() ?? ''
 }

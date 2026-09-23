@@ -10,6 +10,8 @@ export default defineConfig(({ mode }) => {
     'https://odadp9ntx0.execute-api.us-east-1.amazonaws.com'
 
   return {
+    // Expõe VITE_* e COGNITO_* no import.meta.env (client bundle).
+    envPrefix: ['VITE_', 'COGNITO_'],
     plugins: [react()],
     server: {
       proxy: {

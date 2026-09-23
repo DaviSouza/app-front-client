@@ -114,7 +114,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const next = await establishSession(tokens, emailHint, user ?? null)
     if (!next) {
       throw new Error(
-        'Token retornado pelo backend é inválido no Cognito. Verifique VITE_COGNITO_CLIENT_ID e VITE_COGNITO_AUTHORITY no build do front.',
+        'Token retornado pelo backend é inválido no Cognito. Verifique COGNITO_CLIENT_ID e COGNITO_AUTHORITY no build do front.',
       )
     }
     setSession(next)

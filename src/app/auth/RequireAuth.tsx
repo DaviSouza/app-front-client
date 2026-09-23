@@ -18,8 +18,8 @@ export function RequireAuth({ children }: { children: ReactNode }) {
       <div className="rounded-md border border-destructive/50 bg-destructive/10 p-4 text-sm">
         Autenticação não configurada. Defina{' '}
         <code className="rounded bg-muted px-1">VITE_API_GATEWAY_URL</code>,{' '}
-        <code className="rounded bg-muted px-1">VITE_COGNITO_AUTHORITY</code> e{' '}
-        <code className="rounded bg-muted px-1">VITE_COGNITO_CLIENT_ID</code> no{' '}
+        <code className="rounded bg-muted px-1">COGNITO_AUTHORITY</code> e{' '}
+        <code className="rounded bg-muted px-1">COGNITO_CLIENT_ID</code> no{' '}
         <code className="rounded bg-muted px-1">.env</code>.
       </div>
     )

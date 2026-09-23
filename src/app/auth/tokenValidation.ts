@@ -8,7 +8,7 @@ let userInfoEndpoint: string | null = null
 
 function authority(): string {
   const value = getCognitoAuthority()
-  if (!value) throw new Error('VITE_COGNITO_AUTHORITY não configurado.')
+  if (!value) throw new Error('COGNITO_AUTHORITY não configurado.')
   return value
 }
 
