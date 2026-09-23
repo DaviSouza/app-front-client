@@ -15,10 +15,20 @@ export function apiUrl(path: string): string {
   return base ? `${base}${normalized}` : normalized
 }
 
+function envFirst(...keys: string[]): string {
+  const env = import.meta.env as Record<string, string | undefined>
+  for (const key of keys) {
+    const value = env[key]?.trim()
+    if (value) return value
+  }
+  return ''
+}
+
+/** Aceita COGNITO_* (preferido) ou VITE_COGNITO_* (builds/CI antigos). */
 export function getCognitoAuthority(): string {
-  return import.meta.env.COGNITO_AUTHORITY?.trim().replace(/\/$/, '') ?? ''
+  return envFirst('COGNITO_AUTHORITY', 'VITE_COGNITO_AUTHORITY').replace(/\/$/, '')
 }
 
 export function getCognitoClientId(): string {
-  return import.meta.env.COGNITO_CLIENT_ID?.trim() ?? ''
+  return envFirst('COGNITO_CLIENT_ID', 'VITE_COGNITO_CLIENT_ID')
 }
